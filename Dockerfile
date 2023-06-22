@@ -30,10 +30,11 @@ RUN curl https://raw.githubusercontent.com/paulfitz/mysql-connector-c/master/inc
 RUN pip install \
       colorama==0.3.1 \
       docker==4.0.2 \
-      mysqlclient \
+      mysqlclient==2.1.1 \
       psutil \
       psycopg2-binary \
-      pymongo
+      pymongo \
+      requests==2.28.1 `# urllib3 incompatibility https://github.com/docker/docker-py/issues/3113#issuecomment-1525500104`
 
 ENV FWROOT=/FrameworkBenchmarks PYTHONPATH=/FrameworkBenchmarks
 
