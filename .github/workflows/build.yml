@@ -139,12 +139,13 @@ jobs:
         run: |
           if [ "$RUN_TESTS" ]; then echo "Proceeding to run tests."; else echo 'Skipping test verification.'; fi
       - name: Get Maintainers
-        if: ${{ gitub.event_name == 'pull_request' && env.RUN_TESTS }}
+        if: github.event_name == 'pull_request' && env.RUN_TESTS
         run: |
           echo "MAINTAINERS<<EOF" >> $GITHUB_ENV
           echo "$(./toolset/github_actions/github_actions_maintainers.py)" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Ping maintainers
+        if: github.event_name == 'pull_request' && env.RUN_TESTS
         uses: actions/github-script@v6
         script: |
           const lines = ${{ env.MAINTAINERS }};
