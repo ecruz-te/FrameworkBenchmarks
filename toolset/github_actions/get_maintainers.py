@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-# @file:        toolset/github_actions/get_diff_maintainers.py
+# @file:        toolset/github_actions/get_maintainers.py
 # @author:      Elwyn Cruz (ecruz-te)
 #
 # @description: This script is only for use within Github Actions. It is meant

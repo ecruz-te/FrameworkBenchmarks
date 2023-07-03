@@ -142,7 +142,7 @@ jobs:
         if: github.event_name == 'pull_request' && env.RUN_TESTS
         run: |
           echo "MAINTAINERS<<EOF" >> $GITHUB_ENV
-          echo "$(./toolset/github_actions/github_actions_maintainers.py)" >> $GITHUB_ENV
+          echo "$(./toolset/github_actions/get_maintainers.py)" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Ping maintainers
         if: github.event_name == 'pull_request' && env.MAINTAINERS
@@ -158,7 +158,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 body: message
-              })
+              });
             }
       - name: Build tfb dockerfile
         if: ${{ env.RUN_TESTS }}
