@@ -145,13 +145,13 @@ jobs:
           echo "$(./toolset/github_actions/github_actions_maintainers.py)" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Ping maintainers
-        if: github.event_name == 'pull_request' && env.RUN_TESTS
+        if: github.event_name == 'pull_request' && env.MAINTAINERS
         uses: actions/github-script@v6
         with:
           script: |
-            const lines = ${{ env.MAINTAINERS }}
+            const lines = process.env.MAINTAINERS;
             for (const [_, framework, maintainers] of lines.matchAll(/Found maintainers for ([a-zA-Z\-]+): (.*)\n/g)) {
-              const processed_maintainers = maintainers.split(',').map(maintainer => maintainer.trim())
+              const processed_maintainers = maintainers.split(',').map(maintainer => maintainer.trim());
               const message = `@${processed_maintainers.join(', @')} ${framework} has been updated. Please review the changes. If you made these changes, feel free to ignore this message.`
               github.issues.createComment({
                 issue_number: context.issue.number,
