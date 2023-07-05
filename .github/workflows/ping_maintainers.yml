@@ -29,13 +29,13 @@ jobs:
           echo "$(grep -oP "github-actions-run-tests \K(.*)" <<< $DIFF || true)" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Get Maintainers
-        if: github.event_name == 'pull_request' && env.RUN_TESTS
+        if: env.RUN_TESTS
         run: |
           echo "MAINTAINERS_COMMENT<<EOF" >> $GITHUB_ENV
           echo "$(./toolset/github_actions/get_maintainers.py)" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Ping maintainers
-        if: github.event_name == 'pull_request' && env.MAINTAINERS_COMMENT
+        if: env.MAINTAINERS_COMMENT
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
