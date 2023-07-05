@@ -10,16 +10,18 @@
 # to determine which frameworks have been updated.
 
 import os
+import json
 
 frameworks = os.getenv("RUN_TESTS")
 for framework in frameworks.split(" "):
     _, name = framework.split("/")
     try:
-        framework_config = open("frameworks/" + framework + "/benchmark_config.json", "r")
+        with open("frameworks/" + framework + "/benchmark_config.json", "r") as framework_config:
+            config = json.load(framework_config)
     except FileNotFoundError:
         print("Could not find benchmark_config.json for framework " + framework)
         continue
-    maintainers = framework_config.get("maintainers", [])
+    maintainers = config.get("maintainers", [])
     if type(maintainers) is str:
         maintainers = [maintainers]
     print("Found maintainers for %s: %s" % (name, maintainers.join(", ")))
