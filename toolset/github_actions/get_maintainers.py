@@ -24,5 +24,5 @@ for framework in frameworks.split(" "):
     maintainers = config.get("maintainers", [])
     if type(maintainers) is str:
         maintainers = [maintainers]
-    print("Found maintainers for %s: %s" % (name, maintainers.join(", ")))
+    print("Found maintainers for %s: %s" % (name, ", ".join(maintainers)))
 exit(0)
