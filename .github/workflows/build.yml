@@ -141,26 +141,21 @@ jobs:
       - name: Get Maintainers
         if: github.event_name == 'pull_request' && env.RUN_TESTS
         run: |
-          echo "MAINTAINERS<<EOF" >> $GITHUB_ENV
+          echo "MAINTAINERS_COMMENT<<EOF" >> $GITHUB_ENV
           echo "$(./toolset/github_actions/get_maintainers.py)" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Ping maintainers
-        if: github.event_name == 'pull_request' && env.MAINTAINERS
+        if: github.event_name == 'pull_request' && env.MAINTINAERS_COMMENT
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const lines = process.env.MAINTAINERS;
-            for (const [_, framework, maintainers] of lines.matchAll(/Found maintainers for ([a-zA-Z\-]+): (.*)\n/g)) {
-              const processed_maintainers = maintainers.split(',').map(maintainer => maintainer.trim());
-              const message = `@${processed_maintainers.join(', @')} ${framework} has been updated. Please review the changes. If you made these changes, feel free to ignore this message.`
-              github.rest.issues.createComment({
-                issue_number: context.issue.number,
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                body: message
-              });
-            }
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: process.env.MAINTAINERS_COMMENT
+            });
       - name: Build tfb dockerfile
         if: ${{ env.RUN_TESTS }}
         uses: mattes/cached-docker-build-action@v1

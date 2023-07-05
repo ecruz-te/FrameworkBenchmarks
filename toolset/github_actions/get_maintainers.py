@@ -13,6 +13,8 @@ import os
 import json
 
 frameworks = os.getenv("RUN_TESTS")
+maintained_frameworks = {}
+unmaintained_frameworks = []
 for framework in frameworks.split(" "):
     _, name = framework.split("/")
     try:
@@ -21,10 +23,17 @@ for framework in frameworks.split(" "):
     except FileNotFoundError:
         print("Could not find benchmark_config.json for framework " + framework)
         continue
-    maintainers = config.get("maintainers", None)
-    if maintainers is None:
-        continue
-    if type(maintainers) is str:
-        maintainers = [maintainers]
-    print("Found maintainers for %s: %s" % (name, ", ".join(maintainers)))
+    framework_maintainers = config.get("maintainers", None)
+    if framework_maintainers is None:
+        unmaintained_frameworks += name
+    else:
+        maintained_frameworks[name] = framework_maintainers
+if maintained_frameworks is not None:
+    print("This PR contains updates to the following frameworks, pinging maintainers for their input:")
+    for framework, maintainers in maintained_frameworks.items():
+        print("%s: %s" % (name, ", ".join(maintainers)))
+if unmaintained_frameworks:
+    print("The following frameworks did not have their maintainers listed in `benchmark_config.json`:")
+    for framework in unmaintained_frameworks:
+        print(framework)
 exit(0)
