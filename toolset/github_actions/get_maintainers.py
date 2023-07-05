@@ -28,10 +28,10 @@ for framework in frameworks.split(" "):
         unmaintained_frameworks.append(name)
     else:
         maintained_frameworks[name] = framework_maintainers
-if maintained_frameworks is not None:
+if maintained_frameworks:
     print("This PR contains updates to the following frameworks, pinging maintainers for their input:")
     for framework, maintainers in maintained_frameworks.items():
-        print("%s: %s" % (name, ", ".join(maintainers)))
+        print("%s: %s" % (framework, ", ".join(maintainers)))
 if unmaintained_frameworks:
     print("The following frameworks did not have their maintainers listed in `benchmark_config.json`:")
     for framework in unmaintained_frameworks:
