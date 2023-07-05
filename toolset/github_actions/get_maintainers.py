@@ -21,7 +21,9 @@ for framework in frameworks.split(" "):
     except FileNotFoundError:
         print("Could not find benchmark_config.json for framework " + framework)
         continue
-    maintainers = config.get("maintainers", [])
+    maintainers = config.get("maintainers", None)
+    if maintainers is None:
+        continue
     if type(maintainers) is str:
         maintainers = [maintainers]
     print("Found maintainers for %s: %s" % (name, ", ".join(maintainers)))
