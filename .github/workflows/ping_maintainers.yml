@@ -1,5 +1,7 @@
 name: notify
-on: pull_request
+on: 
+  pull_request:
+    types: [opened]
 permissions:
   pull-requests: write
 jobs:
@@ -21,20 +23,7 @@ jobs:
         with:
           python-version: '3.10'
           architecture: 'x64'
-      - name: Get all changes vs master
-        env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-          echo "DIFF<<EOF" >> $GITHUB_ENV
-          echo "$(./toolset/github_actions/github_actions_diff.py)" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-      - name: Determine which (if any) tests need to be run
-        run: |
-          echo "RUN_TESTS<<EOF" >> $GITHUB_ENV
-          echo "$(grep -oP "github-actions-run-tests \K(.*)" <<< $DIFF || true)" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
       - name: Get Maintainers
-        if: env.RUN_TESTS
         run: |
           echo "MAINTAINERS_COMMENT<<EOF" >> $GITHUB_ENV
           echo "$(./toolset/github_actions/get_maintainers.py)" >> $GITHUB_ENV

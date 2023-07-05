@@ -62,6 +62,9 @@ jobs:
           echo "RUN_TESTS<<EOF" >> $GITHUB_ENV
           echo "$(grep -oP "github-actions-run-tests \K(.*)" <<< $DIFF || true)" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          echo "RUN_ALL_TESTS<<EOF" >> $GITHUB_ENV
+          echo "$(grep -o "Running all tests." <<< $DIFF || true)" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
       - id: event_out
         name: Write event outputs
         run: |
