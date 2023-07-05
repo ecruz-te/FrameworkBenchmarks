@@ -1,5 +1,7 @@
 name: notify
 on: pull_request
+permissions:
+  pull-requests: write
 jobs:
   notify:
     runs-on: ubuntu-22.04
