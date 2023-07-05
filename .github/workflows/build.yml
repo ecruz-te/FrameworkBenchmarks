@@ -153,7 +153,7 @@ jobs:
             for (const [_, framework, maintainers] of lines.matchAll(/Found maintainers for ([a-zA-Z\-]+): (.*)\n/g)) {
               const processed_maintainers = maintainers.split(',').map(maintainer => maintainer.trim());
               const message = `@${processed_maintainers.join(', @')} ${framework} has been updated. Please review the changes. If you made these changes, feel free to ignore this message.`
-              github.issues.createComment({
+              github.rest.issues.createComment({
                 issue_number: context.issue.number,
                 owner: context.repo.owner,
                 repo: context.repo.repo,
