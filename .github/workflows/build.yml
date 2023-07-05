@@ -145,7 +145,7 @@ jobs:
           echo "$(./toolset/github_actions/get_maintainers.py)" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
       - name: Ping maintainers
-        if: github.event_name == 'pull_request' && env.MAINTINAERS_COMMENT
+        if: github.event_name == 'pull_request' && env.MAINTAINERS_COMMENT
         uses: actions/github-script@v6
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
