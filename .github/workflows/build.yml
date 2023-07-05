@@ -148,6 +148,7 @@ jobs:
         if: github.event_name == 'pull_request' && env.MAINTAINERS
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const lines = process.env.MAINTAINERS;
             for (const [_, framework, maintainers] of lines.matchAll(/Found maintainers for ([a-zA-Z\-]+): (.*)\n/g)) {
