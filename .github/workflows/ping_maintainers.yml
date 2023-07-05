@@ -4,6 +4,9 @@ jobs:
   notify:
     runs-on: ubuntu-22.04
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 10
       - name: Get commit branch and commit message from PR
         run: |
           echo "BRANCH_NAME=$GITHUB_HEAD_REF" >> $GITHUB_ENV
