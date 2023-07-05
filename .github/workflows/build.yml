@@ -138,24 +138,6 @@ jobs:
       - name: Log status
         run: |
           if [ "$RUN_TESTS" ]; then echo "Proceeding to run tests."; else echo 'Skipping test verification.'; fi
-      - name: Get Maintainers
-        if: github.event_name == 'pull_request' && env.RUN_TESTS
-        run: |
-          echo "MAINTAINERS_COMMENT<<EOF" >> $GITHUB_ENV
-          echo "$(./toolset/github_actions/get_maintainers.py)" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-      - name: Ping maintainers
-        if: github.event_name == 'pull_request' && env.MAINTAINERS_COMMENT
-        uses: actions/github-script@v6
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: process.env.MAINTAINERS_COMMENT
-            });
       - name: Build tfb dockerfile
         if: ${{ env.RUN_TESTS }}
         uses: mattes/cached-docker-build-action@v1

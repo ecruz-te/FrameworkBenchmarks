@@ -25,7 +25,7 @@ for framework in frameworks.split(" "):
         continue
     framework_maintainers = config.get("maintainers", None)
     if framework_maintainers is None:
-        unmaintained_frameworks += name
+        unmaintained_frameworks.append(name)
     else:
         maintained_frameworks[name] = framework_maintainers
 if maintained_frameworks is not None:
